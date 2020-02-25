@@ -1,25 +1,30 @@
 import React, { useState } from "react";
-import {BubbleContext} from './Contexts/BubbleContext';
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import Navigation from './components/Navigation';
-import AuthForm from'./components/AuthForm';
-
+import { BrowserRouter as Router, Route, Link} from "react-router-dom";
+import PrivateRoute from './components/PrivateRoute';
+import BubblePage from './components/BubblePage';
 import Login from "./components/Login";
 import "./styles.scss";
 
 function App() {
-  const [colors, setColors] = useState([]);
+  
+  
   return (
+    <div>
     <Router>
-      <BubbleContext Provider>
-        <div className="App">
-          <Navigation />
-          <Route exact path="/" component={Login} />
-          <Route path= "/login" render = { _ => <AuthForm role = "login" /> }/>
-        </div>
-      </BubbleContext>
-    </Router>
-  );
+      <ul>
+        <li>
+          <Link to="/">Public Page</Link>
+        </li>
+        <li>
+          <Link to="/protected">Protected Page</Link>
+        </li>
+      </ul>
+      <Route path="/public" component={Login} />
+      <Route path="/login" component={Login} />
+      <PrivateRoute path='/protected' component={BubblePage} />
+      </Router>
+    </div>
+  )
 }
 
 export default App;
